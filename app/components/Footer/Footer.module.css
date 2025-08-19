@@ -1,0 +1,45 @@
+.footer {
+  background: #010193;
+  color: #fff;
+  display: block;
+  padding: 1.5% 5% 5% 5%;
+  & > * {
+    flex: 1;
+  }
+  & a {
+    color: #fff;
+    text-decoration: none;
+    &:hover {
+      border-bottom: 1px dashed #fff;
+    }
+  }
+  & h1 {
+    font: 1.75rem 'COAF Serif';
+    margin: 0;
+    opacity: 0.6;
+    @media (min-width: 680px) {
+      font-size: 1.25rem;
+    }
+    @media (min-width: 920px) {
+      font-size: 1.75rem;
+    }
+  } 
+  & li {
+    font-family: 'COAF Sans';
+    font-size: 1rem;
+    line-height: 1.75rem;
+    list-style: none;
+    opacity: 0.6;
+    @media (min-width: 680px) {
+      font-size: 0.75rem;
+      line-height: 1.25rem;
+    }
+    @media (min-width: 920px) {
+      font-size: 1rem;
+      line-height: 1.75rem;
+    }
+  }
+  @media (min-width: 680px) {
+    display: flex;
+  }
+}

@@ -1,0 +1,20 @@
+.body {
+  margin-top: 10rem;
+  font-family: 'COAF Serif';
+  h1 {
+    font-size: 3rem;
+    line-height: 3.25rem;
+    font-weight: 300;
+    text-align: center;
+  }
+}
+
+.content {
+  margin: 0 10%;
+  font-family: 'COAF Sans';
+  p {
+    text-align: justify;
+    line-height: 1.75rem;
+    margin: 1rem 0;
+  }
+}
