@@ -1,0 +1,34 @@
+.content {
+  position: relative;
+  top: 6.5rem;
+  width: 80vw;
+  margin: auto;
+  margin-bottom: 10rem;
+  font-family: 'COAF Sans';
+  padding-top: 4rem;
+  line-height: 1.5rem;
+  min-height: 50vh;
+  & h1 {
+    font-family: 'COAF Serif';
+    font-weight: 300;
+  }
+  @media (min-width: 680px) {
+    top: 7rem;
+  }
+}
+
+.matchStyle {
+  background: yellow;
+}
+
+.matchH1 {
+  color: #000;
+  & h1 {
+    font-size: 1.5rem;
+    margin: 1rem 0 0 0;
+  }
+}
+
+.matchP {
+  margin: 0.5rem 0 2rem;
+}

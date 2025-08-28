@@ -4,8 +4,8 @@ import type { WpPost } from "~/types/posts";
 import type { WpPage } from "~/types/pages";
 
 export const Body:FC<{
-  page?: WpPage
-  post?: WpPost
+  page?: WpPage | WpPost
+  post?: WpPost | WpPage
 }> = ({
   page,
   post
