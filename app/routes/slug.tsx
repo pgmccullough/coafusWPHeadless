@@ -3,13 +3,14 @@ import { Body } from "~/components/Body/Body"
 import { Footer } from "~/components/Footer/Footer"
 import { Header } from "~/components/Header/Header"
 import type { WpCategoryList } from "~/types/categories"
+import type { WpPage } from "~/types/pages"
 import type { WpPost, WpPostList } from "~/types/posts"
-import { getAllPosts, getCategories, getPostBySlug } from "~/utils/tools"
+import { getAllPosts, getCategories, getPageBySlug, getPostBySlug } from "~/utils/tools"
 
 export const Post = () => {
   const { categories, post, posts } = useLoaderData<{
     categories: WpCategoryList
-    post: WpPost
+    post: WpPost | WpPage
     posts: WpPostList
   }>()
   return (
@@ -38,7 +39,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
   }
 
   const filteredCategories = await getCategories()
-  const post = await getPostBySlug(slug)
+  let post: WpPage | WpPost = await getPostBySlug(slug)
+  if(!post) post = await getPageBySlug(slug)
   const posts = await getAllPosts()
 
   return { categories: filteredCategories, post, posts }

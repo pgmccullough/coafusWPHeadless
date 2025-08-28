@@ -1,4 +1,5 @@
 import type { WpCategoryList } from "~/types/categories"
+import type { WpPage } from "~/types/pages";
 import type { WpPost, WpPostList } from "~/types/posts";
 
 export const getCategories = async () => {
@@ -13,6 +14,13 @@ const RANK = new Map(ORDER.map((name, i) => [name.toLowerCase(), i]));
       const rb = RANK.get(b.name.toLowerCase()) ?? Number.POSITIVE_INFINITY;
       return ra - rb || a.name.localeCompare(b.name);
     });
+}
+
+export const getPageBySlug = async (slug: string) => {
+  const postResponse = await fetch(`https://public-api.wordpress.com/wp/v2/sites/collegeofarms.wordpress.com/pages?slug=${slug}`)
+  const postArray = await postResponse.json()
+  const post: WpPage = postArray[0]
+  return post
 }
 
 export const getPostBySlug = async (slug: string) => {

@@ -1,4 +1,4 @@
-import { useCallback, useState, type FC } from 'react';
+import { useCallback, useRef, useState, type FC, type KeyboardEvent } from 'react';
 
 import { NavLink, useNavigate } from 'react-router';
 import styles from './Header.module.css'
@@ -21,14 +21,20 @@ export const Header:FC<{
   const [ searchVis, setSearchVis ] = useState<boolean>( searchQuery ? true : false )
   const [ searchTerm, setSearchTerm ] = useState<string>( searchQuery ?? "" )
   const [ mobileMenuExpand, setMobileMenuExpand ] = useState<boolean>( false )
+  const searchBarRef = useRef<HTMLInputElement>(null)
 
   const searchClickHandler = useCallback(() => {
     if(searchVis) {
-      navigate(`?q=${searchTerm}`)
+      navigate(`/search/?q=${searchTerm}`)
     } else {
       setSearchVis(true)
+      searchBarRef?.current?.focus()
     }
   }, [navigate, searchTerm, searchVis, setSearchVis])
+
+  const submitOnEnter = (e: KeyboardEvent) => {
+    if(e.key === 'Enter') searchClickHandler()
+  }
 
   return (
     <>
@@ -83,9 +89,11 @@ export const Header:FC<{
               >
                 <input 
                   className={styles.subHeader__search__inputInner}
+                  ref={searchBarRef}
                   type="text"
                   name="q"
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={submitOnEnter}
                   placeholder="Search"
                   value={searchTerm}
                 />
