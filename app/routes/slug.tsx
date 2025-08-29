@@ -1,4 +1,4 @@
-import { useLoaderData, type LoaderFunctionArgs } from "react-router"
+import { useLoaderData, type LoaderFunctionArgs, type MetaFunction } from "react-router"
 import { Body } from "~/components/Body/Body"
 import { Footer } from "~/components/Footer/Footer"
 import { Header } from "~/components/Header/Header"
@@ -6,6 +6,20 @@ import type { WpCategoryList } from "~/types/categories"
 import type { WpPage } from "~/types/pages"
 import type { WpPost, WpPostList } from "~/types/posts"
 import { getAllPosts, getCategories, getPageBySlug, getPostBySlug } from "~/utils/tools"
+
+export const meta: MetaFunction<typeof loader> = ({ matches }) => {
+  const match = matches.find((m) => m.id === 'routes/slug')
+  const data = match?.loaderData as Awaited<ReturnType<typeof loader>> | undefined
+  const title = data?.post?.title.rendered ?? ''
+
+  return [
+    { title: `${title} | The College of Arms Foundation` },
+    {
+      property: "og:title",
+      content: `${title} | The College of Arms Foundation`,
+    },
+  ]
+}
 
 export const Post = () => {
   const { categories, post, posts } = useLoaderData<{

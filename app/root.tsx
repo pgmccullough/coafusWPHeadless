@@ -29,7 +29,7 @@ export const links: Route.LinksFunction = () => [
     rel: 'apple-touch-icon',
     href: '/favicon.png',
     type: 'image/png',
-  },
+  }
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {

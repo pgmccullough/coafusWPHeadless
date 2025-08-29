@@ -2,3 +2,48 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+/* ——— WordPress block basics ——— */
+
+.wp-block-image { margin: 1.5rem 0; }
+.wp-block-image img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px; /* your look */
+}
+
+figure.wp-block-image { display: block; }
+figure.wp-block-image figcaption {
+  margin-top: .5rem;
+  font-size: .9rem;
+  color: #666;
+  text-align: center;
+}
+
+/* Group block layouts */
+.wp-block-group { box-sizing: border-box; }
+.wp-block-group.is-layout-flex {
+  display: flex;
+  gap: var(--wp--style--block-gap, 1.5rem);
+  flex-wrap: wrap; /* WordPress editor default */
+}
+.wp-block-group.is-layout-flex.is-nowrap {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+/* Alignment utilities often used by images */
+.alignleft   { float: left;  margin: 0 1.5rem 1rem 0; }
+.alignright  { float: right; margin: 0 0 1rem 1.5rem; }
+.aligncenter { display: block; margin-left: auto; margin-right: auto; }
+
+/* Constrain content width like a theme would */
+.wp-block-image img,
+.wp-block-group {
+  max-width: 100%;
+}
+
+/* Optional: wide/full content (tune to your layout) */
+.alignwide { max-width: min(1100px, 100%); margin-inline: auto; }
+.alignfull { width: 100vw; margin-left: 50%; transform: translateX(-50%); }

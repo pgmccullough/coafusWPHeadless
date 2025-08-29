@@ -1,5 +1,4 @@
 import { useLoaderData } from "react-router";
-import type { Route } from "./+types/home";
 import type { WpCategoryList } from "~/types/categories";
 import { Footer } from "~/components/Footer/Footer";
 import { Header } from "~/components/Header/Header";
@@ -8,10 +7,9 @@ import { Body } from "~/components/Body/Body";
 import { getAllPosts, getCategories } from "~/utils/tools";
 import type { WpPostList } from "~/types/posts";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
-    { title: "The College of Arms Foundation" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "The College of Arms Foundation" }
   ];
 }
 

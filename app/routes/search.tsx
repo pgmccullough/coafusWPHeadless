@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Link, useLoaderData, type LoaderFunctionArgs } from 'react-router'
+import { Link, useLoaderData, type LoaderFunctionArgs, type MetaFunction } from 'react-router'
 import { Header } from '~/components/Header/Header';
 import styles from '~/styles/routes.module.css'
 import type { WpCategoryList } from '~/types/categories';
@@ -44,8 +44,19 @@ function highlightHTML(html: string, q: string | null, className: string) {
 
 
 
+export const meta: MetaFunction<typeof loader> = ({ matches }) => {
+  const match = matches.find((m) => m.id === 'routes/search')
+  const data = match?.loaderData as Awaited<ReturnType<typeof loader>> | undefined
+  const q = data?.q ?? ""
 
-
+  return [
+    { title: `"${q}" | Search | The College of Arms Foundation` },
+    {
+      property: "og:title",
+      content: `"${q}" | Search | The College of Arms Foundation`,
+    },
+  ]
+}
 
 export default function Search() {
   const { categories, posts, q, searchResults } = useLoaderData<{
