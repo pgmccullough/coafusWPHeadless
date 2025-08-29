@@ -6,6 +6,8 @@ import type { WpCategoryList } from "~/types/categories"
 import type { WpPage } from "~/types/pages"
 import type { WpPost, WpPostList } from "~/types/posts"
 import { getAllPosts, getCategories, getPageBySlug, getPostBySlug } from "~/utils/tools"
+import { decode } from "entities"
+
 
 export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const match = matches.find((m) => m.id === 'routes/slug')
@@ -13,10 +15,10 @@ export const meta: MetaFunction<typeof loader> = ({ matches }) => {
   const title = data?.post?.title.rendered ?? ''
 
   return [
-    { title: `${title} | The College of Arms Foundation` },
+    { title: `${decode(title)} | The College of Arms Foundation` },
     {
       property: "og:title",
-      content: `${title} | The College of Arms Foundation`,
+      content: `${decode(title)} | The College of Arms Foundation`,
     },
   ]
 }

@@ -1,9 +1,11 @@
-import { useCallback, useRef, useState, type FC, type KeyboardEvent } from 'react';
+import { useCallback, useRef, useState, type FC, type KeyboardEvent } from 'react'
 
-import { NavLink, useNavigate } from 'react-router';
+import { NavLink, useNavigate } from 'react-router'
+import { decode } from 'entities'
 import styles from './Header.module.css'
-import type { WpCategoryList } from '~/types/categories';
-import type { WpPostList } from '~/types/posts';
+import type { WpCategoryList } from '~/types/categories'
+import type { WpPostList } from '~/types/posts'
+
 
 
 export const Header:FC<{
@@ -21,7 +23,7 @@ export const Header:FC<{
   const [ searchVis, setSearchVis ] = useState<boolean>( searchQuery ? true : false )
   const [ searchTerm, setSearchTerm ] = useState<string>( searchQuery ?? "" )
   const [ mobileMenuExpand, setMobileMenuExpand ] = useState<boolean>( false )
-  const searchBarRef = useRef<HTMLInputElement>(null)
+  const searchBarRef = useRef<HTMLInputElement>( null )
 
   const searchClickHandler = useCallback(() => {
     if(searchVis) {
@@ -55,13 +57,14 @@ export const Header:FC<{
                     <div className={styles.header__subContainer}>
                       {posts
                         .filter((post) => post.categories.includes(category.id))
+                        .sort((a, b) => a.id - b.id)
                         .map((post) => (
                           <NavLink 
                             key={post.slug} 
                             to={`/${post.slug}`}
                             className={styles.header__subLink}
                           >
-                            {post.title.rendered}
+                            {decode(post.title.rendered)}
                           </NavLink>
                         ))
                       }
@@ -120,12 +123,13 @@ export const Header:FC<{
                 <h1>{category.name}</h1>
                 {posts
                   .filter((post) => post.categories.includes(category.id))
+                  .sort((a, b) => a.id - b.id)
                   .map((post) => (
                     <NavLink 
                       key={post.slug} 
                       to={`/${post.slug}`}
                     >
-                      {post.title.rendered}
+                      {decode(post.title.rendered)}
                     </NavLink>
                   ))
                 }
