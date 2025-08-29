@@ -1,8 +1,9 @@
-import type { FC } from 'react';
+import type { FC } from 'react'
+import { decode } from 'entities'
 import styles from './Footer.module.css'
-import type { WpCategoryList } from '~/types/categories';
-import type { WpPostList } from '~/types/posts';
-import { NavLink } from 'react-router';
+import type { WpCategoryList } from '~/types/categories'
+import type { WpPostList } from '~/types/posts'
+import { NavLink } from 'react-router'
 
 export const Footer:FC<{
   categories: WpCategoryList
@@ -20,12 +21,13 @@ export const Footer:FC<{
               <h1>{category.name}</h1>
               {posts
                 .filter((post) => post.categories.includes(category.id))
+                .sort((a, b) => a.id - b.id)
                 .map((post) => (
                   <li key={post.slug} >
                     <NavLink 
                       to={`/${post.slug}`}
                     >
-                      {post.title.rendered}
+                      {decode(post.title.rendered)}
                     </NavLink>
                   </li>
                 ))
