@@ -10,6 +10,7 @@ export interface WpPageLinks {
   replies: WpEmbeddableLink[];
   "version-history": WpVersionHistoryLink[];
   "predecessor-version": WpPredecessorVersionLink[];
+  "wp:featuredmedia": WpEmbeddableLink[];
   "wp:attachment": HrefLink[];
   curies: CuriesLink[];
 }
@@ -65,6 +66,120 @@ export interface WpPage {
   "jetpack-related-posts": unknown[];
 
   _links: WpPageLinks;
+  _embedded: WpPageEmbedded;
 }
 
 export type WpPageList = WpPage[];
+
+// --- Embedded: Users (authors) ---
+
+export interface WpUserLinks {
+  self: HrefLink[];
+  collection: HrefLink[];
+}
+
+export interface WpAvatarUrls {
+  // WordPress uses string keys like "24", "48", "96"
+  [size: string]: string;
+}
+
+export interface WpUser {
+  id: number;
+  name: string;
+  url: string;
+  description: string;
+  link: string;
+  slug: string;
+  avatar_urls: WpAvatarUrls;
+  _links: WpUserLinks;
+}
+
+// --- Embedded: Media (attachments / featuredmedia) ---
+
+export interface WpMediaSize {
+  file: string;          // e.g. "coaf.jpg?w=300"
+  width: number;
+  height: number;
+  mime_type: string;
+  source_url: string;    // direct URL to that size
+}
+
+export interface WpMediaSizes {
+  // Known common keys:
+  thumbnail?: WpMediaSize;
+  medium?: WpMediaSize;
+  large?: WpMediaSize;
+  full?: WpMediaSize;
+
+  // plus any theme/site-defined sizes:
+  [custom: string]: WpMediaSize | undefined;
+}
+
+export interface WpImageMeta {
+  aperture?: string;
+  credit?: string;
+  camera?: string;
+  caption?: string;
+  created_timestamp?: string;
+  copyright?: string;
+  focal_length?: string;
+  iso?: string;
+  shutter_speed?: string;
+  title?: string;
+  orientation?: string;
+  keywords?: string[];
+  // allow extra keys WordPress/Jetpack may add
+  [key: string]: unknown;
+}
+
+export interface WpMediaDetails {
+  width: number;
+  height: number;
+  file: string;        // e.g. "2025/08/foo.jpg"
+  filesize?: number;   // sometimes present
+  sizes: WpMediaSizes;
+  image_meta?: WpImageMeta;
+  // WP can add extra fields; keep flexible:
+  [key: string]: unknown;
+}
+
+export interface WpMediaLinks {
+  self: HrefLink[];
+  collection: HrefLink[];
+  about: HrefLink[];
+  author?: WpEmbeddableLink[];
+  replies?: WpEmbeddableLink[];
+}
+
+export interface WpMediaItem {
+  id: number;
+  date: string;                // ISO8601
+  slug: string;
+  type: "attachment";
+  link: string;
+  title: WpRendered;
+  author: number;
+  featured_media: number;      // usually 0 for attachments
+  caption: WpRendered;
+  alt_text: string;
+  media_type: "image" | "file" | string;
+  mime_type: string;
+  media_details: WpMediaDetails;
+  source_url: string;          // direct URL to original
+  // Jetpack extras that commonly appear:
+  jetpack_shortlink?: string;
+  jetpack_sharing_enabled?: boolean;
+  jetpack_likes_enabled?: boolean;
+
+  _links: WpMediaLinks;
+}
+
+// --- _embedded wrapper for a Page ---
+
+export interface WpPageEmbedded {
+  author?: WpUser[];                 // _embedded.author[0]
+  "wp:featuredmedia"?: WpMediaItem[]; // _embedded["wp:featuredmedia"][0]
+  // Keep this future-proof: other rels may be present
+  [rel: string]: unknown;
+}
+

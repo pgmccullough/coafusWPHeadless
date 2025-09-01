@@ -36,3 +36,9 @@ export const getAllPosts = async () => {
   const posts: WpPostList = postArray
   return posts
 }
+
+export const getImage = async (media: string) => {
+  const mediaResponse = await fetch(media)
+  const featuredImage = await mediaResponse.json()
+  return featuredImage
+}
